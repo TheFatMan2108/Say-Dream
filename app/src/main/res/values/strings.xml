@@ -1,4 +1,57 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">SayDream</string>
+=======
+    <string name="app_name">Say Dream</string>
+    <string name="non_account">Bạn chưa có tài khoản ?</string>
+    <string name="login">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="repassword">Nhập lại mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu</string>
+    <string name="amount">"Số lượng: "</string>
+    <string name="add_cart">Thêm vào giỏ hàng</string>
+    <string name="search_hint">Nhập tên sản phẩm cần tìm</string>
+    <string name="money">Số tiền</string>
+    <string name="change_password">Đổi mật khẩu</string>
+    <string name="old_password">Nhập mật khẩu cũ</string>
+    <string name="new_password">Nhập mật khẩu mới</string>
+    <string name="comfirm_password">Nhập mật khẩu mới</string>
+    <string name="history_buy">"Lịch sử mua hàng "</string>
+    <string name="recharge">Nạp tiền</string>
+    <string name="info_admin">"Thông tin tài khoản Admin: "</string>
+    <string name="name_admin">Tên chủ ví: Quàng Ngọc Thủy</string>
+    <string name="account_number_admin">Số tài khoản: 12345678910</string>
+    <string name="content_admin">Nội dung chuyển : Email + Số điện thoại</string>
+    <string name="deposit_amount">Nhập số tiền cần nạp</string>
+    <string name="screenshot">Ảnh chụp màn hình giao dịch</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Hủy</string>
+    <string name="update_info">Cập nhật thông tin</string>
+    <string name="name_use">Họ và tên</string>
+    <string name="number_phone">Số điện thoại</string>
+    <string name="total">Tổng</string>
+    <string name="tax">{ Đã bao gồm thuế }</string>
+    <string name="order">Đặt hàng</string>
+    <string name="status">"Trạng thái: "</string>
+    <string name="remove">Loại bỏ</string>
+    <string name="transaction_code">Mã giao dịch:</string>
+    <string name="time">Thời gian:</string>
+    <string name="info_user">Thông tin người dùng</string>
+    <string name="address_user">Địa chỉ của bạn</string>
+    <string name="history_recharge">Lịch sử nạp</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="IsEmpty">Không được để trống</string>
+    <string name="MessageLoading">Sẽ mất một lúc vui lòng chờ</string>
+    <string name="LoginFail">Đăng nhập thất bại</string>
+    <string name="SentToEmail">Đã gửi link khôi phục hãy kiểm tra email</string>
+    <string name="AccountNull">Tài khoản không tồn tại</string>
+    <string name="WrongEmailFomat">Email không đúng định dạng</string>
+    <string name="WrongPasswordConfirm">Mật khẩu nhập lại phải giống nhau</string>
+    <string name="WrongPasswordSize">Mật khẩu phải dài hơn 6 ký tụ</string>
+    <string name="FailSignUp">Đăng ký tài khoản thất bại</string>
+    <string name="SuccessSignUp">Đăng ký thành công</string>
+>>>>>>> cdf0d3d (add activity and function)
 
 </resources>
