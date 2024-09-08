@@ -18,7 +18,7 @@ import com.thuydev.saydream.R;
 
 public class FirebaseExtention {
     public static void CheckBanAccount(FirebaseUser user, Activity oldActivity, FirebaseFirestore db, ICallBackAction action) {
-        if (user!=null){
+        if (user==null){
             Toast.makeText(oldActivity, R.string.AccountNull, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -30,6 +30,7 @@ public class FirebaseExtention {
                     return;
                 }
                 User n_user = task.getResult().toObjects(User.class).get(0);
+                Log.e("TAG", "onComplete: "+n_user );
                 if (n_user.getStatus() == 1) {
                     ActivityExtentions.Login(oldActivity, n_user, new ICallBackAction() {
                         @Override
