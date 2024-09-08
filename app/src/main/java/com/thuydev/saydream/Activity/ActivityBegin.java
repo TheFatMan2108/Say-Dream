@@ -24,6 +24,7 @@ public class ActivityBegin extends AppCompatActivity {
                     public void Callback() {
                         finish();
                     }
+
                     
                 });
             }
