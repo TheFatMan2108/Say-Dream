@@ -30,7 +30,7 @@ public class FirebaseExtention {
                     return;
                 }
                 User n_user = task.getResult().toObjects(User.class).get(0);
-                if (n_user.getStatus() != 1) {
+                if (n_user.getStatus() == 1) {
                     ActivityExtentions.Login(oldActivity, n_user, new ICallBackAction() {
                         @Override
                         public void Callback() {
