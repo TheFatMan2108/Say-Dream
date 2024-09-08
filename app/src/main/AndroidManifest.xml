@@ -15,9 +15,6 @@
         android:theme="@style/Theme.SayDream"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
-            android:name=".MainActivity"
-=======
             android:name=".Activity.ActivityMain"
             android:exported="false" />
         <activity
@@ -31,7 +28,6 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ActivityWellcome"
->>>>>>> cdf0d3d (add activity and function)
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
