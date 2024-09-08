@@ -4,17 +4,16 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.thuydev.saydream.R;
-import com.thuydev.saydream.databinding.ActivityDangKyBinding;
 
-public class MainActivity extends AppCompatActivity {
-    ActivityDangKyBinding view;
+public class ActivityMain extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        view = ActivityDangKyBinding.inflate(getLayoutInflater());
-        setContentView(view.getRoot());
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ManHinhKhoiDau_Activity">
+    >
 
     <ImageView
         android:id="@+id/imv_icon2"
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/non_account"
-        android:textColor="@color/black"
+        android:textColor="#01877E"
         app:layout_constraintTop_toBottomOf="@id/gl_line3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -93,7 +93,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Make by Team 4"
+        android:text="Make by T2"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/gl_line3"
         app:layout_constraintBottom_toBottomOf="parent"
