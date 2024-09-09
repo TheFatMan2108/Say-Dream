@@ -60,7 +60,7 @@ public class ActivityWellcome extends AppCompatActivity {
         } else {
             FirebaseExtention.CheckBanAccount(user, ActivityWellcome.this, db, new ICallBackAction() {
                 @Override
-                public void Callback() {
+                public void CallBack(Object... obj) {
                     finish();
                     finishAffinity();
                 }

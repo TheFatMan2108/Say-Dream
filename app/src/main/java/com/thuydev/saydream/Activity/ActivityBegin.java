@@ -21,7 +21,7 @@ public class ActivityBegin extends AppCompatActivity {
             public void onClick(View v) {
                 ActivityExtentions.NextActivity(ActivityBegin.this, ActivityLogin.class, new ICallBackAction() {
                     @Override
-                    public void Callback() {
+                    public void CallBack(Object... obj) {
                         finish();
                     }
                 });
@@ -32,7 +32,7 @@ public class ActivityBegin extends AppCompatActivity {
             public void onClick(View v) {
                 ActivityExtentions.NextActivity(ActivityBegin.this, ActivitySignUp.class, new ICallBackAction() {
                     @Override
-                    public void Callback() {
+                    public void CallBack(Object... obj) {
                         finish();
                     }
                 });
