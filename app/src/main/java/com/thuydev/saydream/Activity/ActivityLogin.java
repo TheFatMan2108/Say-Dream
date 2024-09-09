@@ -25,7 +25,6 @@ import com.thuydev.saydream.databinding.ActivityDangNhapBinding;
 import com.thuydev.saydream.databinding.DialogQuenpassBinding;
 
 public class ActivityLogin extends AppCompatActivity {
-    public static ActivityLogin instance;
     private ActivityDangNhapBinding view;
     private ProgressDialog progressDialog;
     public FirebaseAuth mAuth ;
@@ -36,7 +35,6 @@ public class ActivityLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         view = ActivityDangNhapBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
-        if(instance==null)instance = this;
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -51,7 +49,7 @@ public class ActivityLogin extends AppCompatActivity {
             public void onClick(View v) {
                 ActivityExtentions.NextActivity(ActivityLogin.this, ActivitySignUp.class, new ICallBackAction() {
                     @Override
-                    public void Callback() {
+                    public void CallBack(Object... obj) {
 
                     }
                 });
@@ -117,7 +115,7 @@ public class ActivityLogin extends AppCompatActivity {
                             }
                             FirebaseExtention.CheckBanAccount(mUser, ActivityLogin.this, db, new ICallBackAction() {
                                 @Override
-                                public void Callback() {
+                                public void CallBack(Object... obj) {
 
                                 }
                             });

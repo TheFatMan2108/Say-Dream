@@ -49,5 +49,6 @@
     <string name="WrongPasswordSize">Mật khẩu phải dài hơn 6 ký tụ</string>
     <string name="FailSignUp">Đăng ký tài khoản thất bại</string>
     <string name="SuccessSignUp">Đăng ký thành công</string>
+    <string name="error">Lỗi</string>
 
 </resources>
