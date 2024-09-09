@@ -40,7 +40,6 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
     }
-
     private void SignUp() {
         String email = view.edtEmailDangnky.getText().toString();
         String password = view.edtMatkhauDangky.getText().toString();
@@ -91,7 +90,7 @@ public class ActivitySignUp extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         ActivityExtentions.NextActivity(ActivitySignUp.this, ActivityMain.class, new ICallBackAction() {
                             @Override
-                            public void Callback() {
+                            public void CallBack(Object... obj) {
                                 finish();
                             }
                         });
@@ -107,8 +106,6 @@ public class ActivitySignUp extends AppCompatActivity {
                     }
                 });
     }
-
-
     public void ShowProgressDialog() {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage(getString(R.string.MessageLoading));

@@ -1,6 +1,8 @@
 package com.thuydev.saydream.Extentions;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,13 +12,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.thuydev.saydream.Activity.ActivityMain;
+import com.thuydev.saydream.DTO.Product;
 import com.thuydev.saydream.DTO.User;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 
 public class FirebaseExtention {
+
     public static void CheckBanAccount(FirebaseUser user, Activity oldActivity, FirebaseFirestore db, ICallBackAction action) {
         if (user==null){
             Toast.makeText(oldActivity, R.string.AccountNull, Toast.LENGTH_SHORT).show();
@@ -34,16 +42,57 @@ public class FirebaseExtention {
                 if (n_user.getStatus() == 1) {
                     ActivityExtentions.Login(oldActivity, n_user, new ICallBackAction() {
                         @Override
-                        public void Callback() {
-                            // Do some things
+                        public void CallBack(Object... obj) {
+                            ActivityExtentions.NextActivity(oldActivity, ActivityMain.class, new ICallBackAction() {
+                                @Override
+                                public void CallBack(Object... obj) {
+
+                                }
+                            });
                         }
                     });
                 } else {
                     Toast.makeText(oldActivity, "Tài khoản bạn đã bị đình chỉ vui lòng liên", Toast.LENGTH_SHORT).show();
                     FirebaseAuth.getInstance().signOut();
-                    action.Callback();
+                    action.CallBack();
                 }
             }
         });
     }
+    public static void CreatedDeepLinkProduct(Product data,Activity oldActivity, ICallBackAction action){
+        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://saydream.page.link/product/?id="+Tag.ID_PRODUCT))
+                .setDomainUriPrefix("https://saydream.page.link/")
+                // Open links with this app on Android
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                // Open links with com.example.ios on iOS
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
+                .buildDynamicLink();
+        Uri dynamicLinkUri = dynamicLink.getUri();
+        MakeShortLink(dynamicLinkUri.toString(), oldActivity, new ICallBackAction() {
+            @Override
+            public void CallBack(Object... obj) {
+                action.CallBack(obj);
+            }
+        });
+    }
+    public static void MakeShortLink(String link, Activity oldActivity,ICallBackAction action){
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLongLink(Uri.parse(link))
+                .buildShortDynamicLink()
+                .addOnCompleteListener(oldActivity, new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            // Short link created
+                            Uri shortLink = task.getResult().getShortLink();
+                            action.CallBack(shortLink);
+                        } else {
+                            Log.e("TAG", "onComplete: Loi" );
+                            Toast.makeText(oldActivity, R.string.error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 }
