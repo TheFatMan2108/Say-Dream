@@ -24,7 +24,6 @@ import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 
 public class FirebaseExtention {
-
     public static void CheckBanAccount(FirebaseUser user, Activity oldActivity, FirebaseFirestore db, ICallBackAction action) {
         if (user==null){
             Toast.makeText(oldActivity, R.string.AccountNull, Toast.LENGTH_SHORT).show();
