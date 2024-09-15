@@ -51,4 +51,6 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.firebase:firebase-dynamic-links")
     implementation ("com.google.firebase:firebase-analytics")
+    implementation ("me.relex:circleindicator:2.1.6")
+
 }
