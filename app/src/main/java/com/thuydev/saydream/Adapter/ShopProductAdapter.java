@@ -1,5 +1,6 @@
 package com.thuydev.saydream.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,19 +25,19 @@ import com.thuydev.saydream.Extentions.FomatExtention;
 import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
-import com.thuydev.saydream.databinding.ActivitySanphamShowBinding;
-import com.thuydev.saydream.databinding.ItemCuahangBinding;
 import com.thuydev.saydream.databinding.ItemCuahangSanphamBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.ViewHoder>{
+public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.ViewHoder> implements Filterable {
     Context context;
-    List<Product> productList;
+    List<Product> productList, listSearch;
     ItemCuahangSanphamBinding view;
     public ShopProductAdapter(Context context, List<Product> productList, ICallBackAction action) {
         this.context = context;
         this.productList = productList;
+        listSearch = productList;
         action.CallBack(productList.size());
     }
 
@@ -45,15 +48,16 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
         return new ViewHoder(view.getRoot());
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull ViewHoder holder, int position) {
-        view.tvTenspCuahang.setText(productList.get(position).getName());
-        view.tvGiaspCuahang.setText(FomatExtention.MakeStyleMoney(productList.get(position).getPrice())+" đ");
+        holder.nameProduct.setText(productList.get(position).getName());
+        holder.price.setText(FomatExtention.MakeStyleMoney(productList.get(position).getPrice())+" đ");
         Glide.with(context).load(productList
                 .get(position)
                 .getImage())
                 .error(R.drawable.baseline_crop_original_24)
-                .into(view.imvAnhSpCuahang);
+                .into(holder.image);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +67,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
                         Intent intent = new Intent(context, ActivityProductDetail.class);
                         Uri link = (Uri)obj[0];
                         Log.e(Tag.TAG_LOG, "CallBack: "+link );
-                        intent.putExtra(Tag.ID_PRODUCT,link);
+                        intent.setData(link);
                         ((Activity)context).startActivity(intent);
                     }
                 });
@@ -74,6 +78,36 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                if (constraint.toString().isEmpty()) {
+                    productList = listSearch;
+                } else {
+                    List<Product> listPro = new ArrayList<>();
+                    for (Product pd : listSearch) {
+                        if (pd.getName().toLowerCase().trim().contains(constraint.toString().toLowerCase().trim())) {
+                            listPro.add(pd);
+                            Log.e(Tag.TAG_LOG, "performFiltering: "+constraint+" - "+pd.getName() );
+                        }
+                    }
+                    productList=listPro;
+                }
+                FilterResults results = new FilterResults();
+                results.values = productList;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                productList = (List<Product>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHoder extends ViewHolder{

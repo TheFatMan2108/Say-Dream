@@ -15,14 +15,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(String id, String idCategory, String name, String image, long price, List<String> size, String year_of_manufacture, int quantity) {
+    public Product(String id, String idCategory, String name, String image, long price, List<String> size, String yearOfManufacture, int quantity) {
         this.id = id;
         this.idCategory = idCategory;
         this.name = name;
         this.image = image;
         this.price = price;
         this.size = size;
-        this.yearOfManufacture = year_of_manufacture;
+        this.yearOfManufacture = yearOfManufacture;
         this.quantity = quantity;
     }
 
@@ -74,11 +74,11 @@ public class Product {
         this.size = size;
     }
 
-    public String getYear_of_manufacture() {
+    public String getYearOfManufacture() {
         return yearOfManufacture;
     }
 
-    public void setYear_of_manufacture(String year_of_manufacture) {
+    public void setYearOfManufacture(String year_of_manufacture) {
         this.yearOfManufacture = year_of_manufacture;
     }
 

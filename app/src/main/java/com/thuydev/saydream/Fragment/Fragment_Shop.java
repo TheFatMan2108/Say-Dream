@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,19 @@ public class Fragment_Shop extends Fragment {
         viewLayout.rcvCuaHang.setAdapter(shopCateAdapter);
         viewLayout.rcvCuaHang.setLayoutManager(layoutManager);
         GetListCate();
+        viewLayout.svTimsp.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                shopCateAdapter.getFilter().filter(newText);
+                shopCateAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
 
     private void GetListCate() {
