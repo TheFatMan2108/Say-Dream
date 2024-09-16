@@ -68,6 +68,7 @@ public class FirebaseExtention {
                 .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
                 .buildDynamicLink();
         Uri dynamicLinkUri = dynamicLink.getUri();
+        Log.e(Tag.TAG_LOG, "CreatedDeepLinkProduct: "+dynamicLinkUri );
         MakeShortLink(dynamicLinkUri.toString(), oldActivity, new ICallBackAction() {
             @Override
             public void CallBack(Object... obj) {
