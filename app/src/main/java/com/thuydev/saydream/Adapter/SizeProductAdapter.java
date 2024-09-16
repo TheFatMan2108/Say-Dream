@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.databinding.ItemKichcoBinding;
 
 import java.util.List;
@@ -20,10 +21,12 @@ public class SizeProductAdapter extends RecyclerView.Adapter<SizeProductAdapter.
     Context context;
     List<String> list;
     ItemKichcoBinding view;
+    ICallBackAction action;
     int index = -1;
-    public SizeProductAdapter(Context context, List<String> list) {
+    public SizeProductAdapter(Context context, List<String> list, ICallBackAction action) {
         this.context = context;
         this.list = list;
+        this.action = action;
     }
 
     @NonNull
@@ -49,6 +52,7 @@ public class SizeProductAdapter extends RecyclerView.Adapter<SizeProductAdapter.
             @Override
             public void onClick(View v) {
                 index = position;
+                action.CallBack(list.get(position));
                 notifyDataSetChanged();
                 // lam gi do o day
             }

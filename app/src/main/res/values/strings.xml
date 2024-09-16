@@ -50,9 +50,10 @@
     <string name="FailSignUp">Đăng ký tài khoản thất bại</string>
     <string name="SuccessSignUp">Đăng ký thành công</string>
     <string name="error">Lỗi</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="see_more">Xem thêm</string>
     <string name="max30">Sản phẩm mua không được vượt quá 30 sản phẩm</string>
+    <string name="nullSize">Phải chọn kích cỡ</string>
+    <string name="CAddCart">Sản phẩm đã được thêm vào giỏ</string>
+    <string name="update_Cart">Đã cập nhật số lượng sản phẩm</string>
 
 </resources>

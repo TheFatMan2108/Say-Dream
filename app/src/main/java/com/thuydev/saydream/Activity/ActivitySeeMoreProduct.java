@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -84,6 +85,11 @@ public class ActivitySeeMoreProduct extends AppCompatActivity {
         db.collection(Tag.DTO_PRODUCT).whereEqualTo("idCategory",idCate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(!task.getResult().isEmpty()){
+                    Toast.makeText(ActivitySeeMoreProduct.this, R.string.error, Toast.LENGTH_SHORT).show();
+                    GetProducts();
+                    return;
+                }
                 list.clear();
                 list.addAll(task.getResult().toObjects(Product.class));
                 shopProductAdapter.notifyDataSetChanged();
