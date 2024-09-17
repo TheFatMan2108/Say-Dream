@@ -9,12 +9,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.thuydev.saydream.Activity.ActivityMain;
@@ -60,7 +62,7 @@ public class FirebaseExtention {
     }
     public static void CreatedDeepLinkProduct(Product data,Activity oldActivity, ICallBackAction action){
         DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://saydream.page.link/product/?id="+Tag.ID_PRODUCT))
+                .setLink(Uri.parse("https://saydream.page.link/product/?id="+data.getId()))
                 .setDomainUriPrefix("https://saydream.page.link/")
                 // Open links with this app on Android
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
@@ -68,6 +70,7 @@ public class FirebaseExtention {
                 .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
                 .buildDynamicLink();
         Uri dynamicLinkUri = dynamicLink.getUri();
+        Log.e(Tag.TAG_LOG, "CreatedDeepLinkProduct: "+dynamicLinkUri );
         MakeShortLink(dynamicLinkUri.toString(), oldActivity, new ICallBackAction() {
             @Override
             public void CallBack(Object... obj) {
@@ -93,5 +96,18 @@ public class FirebaseExtention {
                     }
                 });
     }
-
+    public static void GetProduct(String idProduct,ICallBackAction action){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Tag.DTO_PRODUCT).document(idProduct).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                action.CallBack(task.getResult().toObject(Product.class));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(Tag.TAG_LOG, "onFailure: ",e );
+            }
+        });
+    }
 }

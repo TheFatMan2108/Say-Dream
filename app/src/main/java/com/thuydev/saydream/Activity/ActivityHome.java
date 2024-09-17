@@ -98,8 +98,7 @@ public class ActivityHome extends AppCompatActivity {
         listShoe.add(new Shoe(R.drawable.logo4, "Cũ","1.000.000 VNĐ", "Giày AF1"));
 
         listCategory.add(new Category("Adidas", listShoe));
-        listCategory.add(new Category("Gucci", listShoe));
-        listCategory.add(new Category("Dior", listShoe));
+
         return listCategory;
     }
 

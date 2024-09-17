@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:id="@+id/search_menu"
+        android:icon="@drawable/magnifying_glass"
+        android:title="TODO"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
+    <item
         android:id="@+id/menu_thongBao"
-        android:icon="@drawable/belldis"
+        android:icon="@drawable/shopping_cart"
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
 </menu>

@@ -1,26 +1,28 @@
 package com.thuydev.saydream.DTO;
 
+import java.util.List;
+
 public class Product {
     private String id;
     private String idCategory;
     private String name;
     private String image;
     private long price;
-    private String[] size;
+    private List<String> size;
     private String yearOfManufacture;
     private int quantity;
 
     public Product() {
     }
 
-    public Product(String id, String idCategory, String name, String image, long price, String[] size, String year_of_manufacture, int quantity) {
+    public Product(String id, String idCategory, String name, String image, long price, List<String> size, String yearOfManufacture, int quantity) {
         this.id = id;
         this.idCategory = idCategory;
         this.name = name;
         this.image = image;
         this.price = price;
         this.size = size;
-        this.yearOfManufacture = year_of_manufacture;
+        this.yearOfManufacture = yearOfManufacture;
         this.quantity = quantity;
     }
 
@@ -64,19 +66,19 @@ public class Product {
         this.price = price;
     }
 
-    public String[] getSize() {
+    public List<String> getSize() {
         return size;
     }
 
-    public void setSize(String[] size) {
+    public void setSize(List<String> size) {
         this.size = size;
     }
 
-    public String getYear_of_manufacture() {
+    public String getYearOfManufacture() {
         return yearOfManufacture;
     }
 
-    public void setYear_of_manufacture(String year_of_manufacture) {
+    public void setYearOfManufacture(String year_of_manufacture) {
         this.yearOfManufacture = year_of_manufacture;
     }
 
