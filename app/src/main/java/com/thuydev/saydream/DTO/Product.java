@@ -4,22 +4,32 @@ public class Product {
     private String id;
     private String idCategory;
     private String name;
+    private String image;
     private long price;
     private String[] size;
-    private String year_of_manufacture;
+    private String yearOfManufacture;
     private int quantity;
 
     public Product() {
     }
 
-    public Product(String id, String idCategory, String name, long price, String[] size, String year_of_manufacture, int quantity) {
+    public Product(String id, String idCategory, String name, String image, long price, String[] size, String year_of_manufacture, int quantity) {
         this.id = id;
         this.idCategory = idCategory;
         this.name = name;
+        this.image = image;
         this.price = price;
         this.size = size;
-        this.year_of_manufacture = year_of_manufacture;
+        this.yearOfManufacture = year_of_manufacture;
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getId() {
@@ -63,11 +73,11 @@ public class Product {
     }
 
     public String getYear_of_manufacture() {
-        return year_of_manufacture;
+        return yearOfManufacture;
     }
 
     public void setYear_of_manufacture(String year_of_manufacture) {
-        this.year_of_manufacture = year_of_manufacture;
+        this.yearOfManufacture = year_of_manufacture;
     }
 
     public int getQuantity() {
