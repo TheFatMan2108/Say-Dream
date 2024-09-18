@@ -51,4 +51,7 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.firebase:firebase-dynamic-links")
     implementation ("com.google.firebase:firebase-analytics")
+    implementation ("me.relex:circleindicator:2.1.6")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
 }

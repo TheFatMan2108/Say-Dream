@@ -17,14 +17,23 @@
         android:theme="@style/Theme.SayDream"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.ActivitySeeMoreProduct"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ActivityProductDetail"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="saydream.page.link" android:scheme="http" />
-                <data android:host="saydream.page.link" android:scheme="https"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="saydream.page.link"
+                    android:scheme="http" />
+                <data
+                    android:host="saydream.page.link"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity

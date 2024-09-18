@@ -3,15 +3,35 @@ package com.thuydev.saydream.DTO;
 public class Cart {
     private String id;
     private String idUser;
-    private String[] idProducts;
+    private String idProducts;
+    private String size;
+    private int quantity;
 
     public Cart() {
     }
 
-    public Cart(String id, String idUser, String[] idProducts) {
+    public Cart(String id, String idUser, String idProducts, String size, int quantity) {
         this.id = id;
         this.idUser = idUser;
         this.idProducts = idProducts;
+        this.size = size;
+        this.quantity = quantity;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getId() {
@@ -30,11 +50,11 @@ public class Cart {
         this.idUser = idUser;
     }
 
-    public String[] getIdProducts() {
+    public String getIdProducts() {
         return idProducts;
     }
 
-    public void setIdProducts(String[] idProducts) {
+    public void setIdProducts(String idProducts) {
         this.idProducts = idProducts;
     }
 }

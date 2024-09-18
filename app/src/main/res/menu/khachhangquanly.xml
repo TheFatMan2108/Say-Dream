@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_khachhang_Home"
+        android:title=""
+        android:icon="@drawable/home"
+        />
     <item android:id="@+id/menu_khachhang_danhsachsp"
         android:title=""
         android:icon="@drawable/shoes"
         />
-
-    <item android:id="@+id/menu_khachhang_giohang"
-        android:title=""
-        android:icon="@drawable/shoppingcart"
-        />
-    <item android:id="@+id/menu_khachhang_hotro"
-        android:title=""
-        android:icon="@drawable/agent"
-        />
-
     <item android:id="@+id/menu_khachhang_hoadon"
         android:title=""
         android:icon="@drawable/bill_kh"
