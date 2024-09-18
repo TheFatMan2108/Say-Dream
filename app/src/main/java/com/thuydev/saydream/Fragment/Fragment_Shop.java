@@ -1,5 +1,6 @@
 package com.thuydev.saydream.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.thuydev.saydream.Activity.ActivityCart;
 import com.thuydev.saydream.Adapter.ShopCateAdapter;
 import com.thuydev.saydream.DTO.Categoty;
 import com.thuydev.saydream.Extentions.Tag;
@@ -48,6 +50,13 @@ public class Fragment_Shop extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
         viewLayout.rcvCuaHang.setAdapter(shopCateAdapter);
         viewLayout.rcvCuaHang.setLayoutManager(layoutManager);
+        viewLayout.cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ActivityCart.class);
+                startActivity(intent);
+            }
+        });
         GetListCate();
         viewLayout.svTimsp.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
