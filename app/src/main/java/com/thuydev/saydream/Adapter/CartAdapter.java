@@ -46,7 +46,7 @@ import java.util.UUID;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private List<Cart> listCart;
     private Context context;
-    private ICallBackAction callBackAction, callBackTotal,callBackDelete;
+    private ICallBackAction callBackAction, callBackTotal, callBackDelete;
     private LayoutInflater inflater;
     private ProgressDialog progressDialog;
 
@@ -58,7 +58,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         this.callBackTotal = callBackTotal;
         this.inflater = LayoutInflater.from(context);
     }
-
 
 
     @NonNull
@@ -96,11 +95,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                         holder.tv_SoLuongSP_GioHang.setText(quantityText);
 
                         Long price = product.getPrice() * cart.getQuantity();
-holder.price = price;
+                        holder.price = price;
                         holder.tv_GiaSP_GioHang.setText(FomatExtention.MakeStyleMoney(price));
                         String categoryText = context.getString(R.string.category) + ": " + categoty.getName();
                         holder.tv_ThuongHieu_GioHang.setText(categoryText);
+
                         callBackTotal.CallBack(product.getPrice() * cart.getQuantity());
+
 
                     }
                 });
@@ -117,6 +118,7 @@ holder.price = price;
                             public void onClick(DialogInterface dialog, int which) {
                                 // Hành động khi bấm OK
                                 deleteItemCart(cart.getId(), callBackAction);
+
                                 dialog.dismiss();
                             }
                         })
@@ -146,7 +148,7 @@ holder.price = price;
                                     public void CallBack(Object... obj) {
                                         String url = obj[0].toString();
                                         showQR(url);
-                                        deleteItemWhenPayment(cart.getId(),callBackAction);
+                                        deleteItemWhenPayment(cart.getId(), callBackAction);
                                     }
                                 });
                             }
@@ -175,6 +177,7 @@ holder.price = price;
                                     public void onClick(DialogInterface dialog, int which) {
                                         // Hành động khi bấm OK
                                         dialog.dismiss(); // Đóng dialog
+
                                         iCallBackAction.CallBack();
                                     }
                                 })
@@ -200,6 +203,7 @@ holder.price = price;
                     }
                 });
     }
+
     private void deleteItemWhenPayment(String idCart, ICallBackAction iCallBackAction) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Tag.DTO_CART).document(idCart).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -217,7 +221,7 @@ holder.price = price;
 
     }
 
-    private void payment(Cart cart,Long price ,ICallBackAction callBackAction) {
+    private void payment(Cart cart, Long price, ICallBackAction callBackAction) {
         ShowProgressDialog();
         Map<String, Object> data = new HashMap<>();
         String id = UUID.randomUUID().toString();
@@ -263,7 +267,7 @@ holder.price = price;
     }
 
     private void showQR(String anh) {
-        View view = View.inflate(context,R.layout.dialog_anh, null);
+        View view = View.inflate(context, R.layout.dialog_anh, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view);
         Dialog dialog = builder.create();
@@ -276,6 +280,7 @@ holder.price = price;
         Glide.with(context).load(anh)
                 .error(R.drawable.baseline_crop_original_24).into(imageView);
     }
+
     private void ShowProgressDialog() {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage(context.getString(R.string.MessageLoading));
@@ -296,7 +301,8 @@ holder.price = price;
         ImageView imv_AnhSP_GioHang;
         TextView tv_xoa_giohang;
         TextView tv_mua_giohang;
-        Long price ;
+        Long price;
+
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_TenSP_GioHang = itemView.findViewById(R.id.tv_tensp_gioHang);

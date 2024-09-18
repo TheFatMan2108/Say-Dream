@@ -32,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.thuydev.saydream.Adapter.CartAdapter;
 
 import com.thuydev.saydream.DTO.Cart;
+import com.thuydev.saydream.Extentions.FomatExtention;
 import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
@@ -58,11 +59,12 @@ public class ActivityCart extends AppCompatActivity {
         setContentView(view.getRoot());
         progressDialog = new ProgressDialog(this);
         listCart = new ArrayList<>();
-
+        view.tvGioGia.setText(FomatExtention.MakeStyleMoney(0l));
 
         view.rcvListgio.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         loadCartData();
         cartAdapter = new CartAdapter(listCart, this, new ICallBackAction() {
+
             @Override
             public void CallBack(Object... obj) {
                 loadCartData();
@@ -72,7 +74,7 @@ public class ActivityCart extends AppCompatActivity {
                     @Override
                     public void CallBack(Object... obj) {
                         totalPrice += (Long) obj[0];
-                        view.tvGioGia.setText(String.valueOf(totalPrice));
+                        view.tvGioGia.setText(FomatExtention.MakeStyleMoney(totalPrice));
                     }
                 }, getLayoutInflater());
         view.rcvListgio.setAdapter(cartAdapter);
@@ -114,7 +116,7 @@ public class ActivityCart extends AppCompatActivity {
             db.collection(Tag.DTO_CART).document(c.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-
+                            view.tvGioGia.setText(FomatExtention.MakeStyleMoney(0l));
                             getListCart(new ICallBackAction() {
                                 @Override
                                 public void CallBack(Object... obj) {
@@ -198,9 +200,12 @@ public class ActivityCart extends AppCompatActivity {
         getListCart(new ICallBackAction() {
             @Override
             public void CallBack(Object... obj) {
+                totalPrice = 0L;
+                view.tvGioGia.setText(FomatExtention.MakeStyleMoney(totalPrice));
                 listCart.clear();
                 listCart.addAll((List<Cart>) obj[0]);
-                cartAdapter.notifyDataSetChanged();  // Cập nhật adapter khi có dữ liệu mới
+                cartAdapter.notifyDataSetChanged();
+                Log.e(TAG, "CallBack: "+totalPrice );// Cập nhật adapter khi có dữ liệu mới
             }
         });
     }
