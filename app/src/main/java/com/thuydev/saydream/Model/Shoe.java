@@ -1,47 +1,47 @@
 package com.thuydev.saydream.Model;
 
 public class Shoe {
-    private int ResouceId;
-    private String New;
-    private String Price;
-    private String Name;
+    private int resouceId;
+    private String aNew;
+    private String price;
+    private String name;
 
     public Shoe(int resouceId, String aNew, String price, String name) {
-        ResouceId = resouceId;
-        New = aNew;
-        Price = price;
-        Name = name;
+        this.resouceId = resouceId;
+        this.aNew = aNew;
+        this.price = price;
+        this.name = name;
     }
 
     public int getResouceId() {
-        return ResouceId;
+        return resouceId;
     }
 
     public void setResouceId(int resouceId) {
-        ResouceId = resouceId;
+        this.resouceId = resouceId;
     }
 
     public String getNew() {
-        return New;
+        return aNew;
     }
 
     public void setNew(String aNew) {
-        New = aNew;
+        this.aNew = aNew;
     }
 
     public String getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(String price) {
-        Price = price;
+        this.price = price;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 }

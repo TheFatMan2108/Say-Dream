@@ -1,6 +1,5 @@
 package com.thuydev.saydream.Adapter;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +27,13 @@ public class ShoeAdapter extends RecyclerView.Adapter<ShoeAdapter.ShoeViewHolder
     @Override
     public ShoeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shoe, parent, false);
-
         return new ShoeViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ShoeViewHolder holder, int position) {
         Shoe shoe = mShoes.get(position);
-        if (shoe == null){
+        if (shoe == null) {
             return;
         }
 
@@ -43,29 +41,21 @@ public class ShoeAdapter extends RecyclerView.Adapter<ShoeAdapter.ShoeViewHolder
         holder.tvNew.setText(shoe.getNew());
         holder.tvPrice.setText(shoe.getPrice());
         holder.tvName.setText(shoe.getName());
-
-
     }
 
     @Override
     public int getItemCount() {
-        if (mShoes != null) {
-            return mShoes.size();
-        }
-        return 0;
+        return mShoes != null ? mShoes.size() : 0;
     }
 
     public class ShoeViewHolder extends RecyclerView.ViewHolder {
-
         private ImageView imgShoe;
         private TextView tvNew;
         private TextView tvPrice;
         private TextView tvName;
 
-
         public ShoeViewHolder(@NonNull View itemView) {
             super(itemView);
-
             imgShoe = itemView.findViewById(R.id.img_shoe);
             tvNew = itemView.findViewById(R.id.tv_new);
             tvPrice = itemView.findViewById(R.id.tv_price);
