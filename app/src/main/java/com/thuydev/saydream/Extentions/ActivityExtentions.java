@@ -11,11 +11,11 @@ public class ActivityExtentions {
     public static void NextActivity(Activity oldActivity, Class aClass, ICallBackAction action) {
        Intent intent = new Intent(oldActivity, aClass);
         oldActivity.startActivity(intent);
-        action.Callback();
+        action.CallBack();
     }
     public static void Login(Activity oldActivity, User user,ICallBackAction action) {
         Intent intent = new Intent(oldActivity, ActivityMain.class);
-        action.Callback();
+        action.CallBack();
         if (!oldActivity.isFinishing()) {
             return;
         }
