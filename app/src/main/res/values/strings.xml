@@ -55,5 +55,15 @@
     <string name="nullSize">Phải chọn kích cỡ</string>
     <string name="CAddCart">Sản phẩm đã được thêm vào giỏ</string>
     <string name="update_Cart">Đã cập nhật số lượng sản phẩm</string>
+    <string name="category">Thương hiệu</string>
+    <string name="size">Kích cỡ</string>
+    <string name="quantity">Số lượng</string>
+    <string name="deleteCart">Thông báo</string>
+    <string name="deleteCartSuccess">Xoá thành công</string>
+    <string name="deleteCartFail">Xoá thất bại!</string>
+    <string name="deleteCartConfirm">Bạn có chắc chắn muốn xoá không?</string>
+    <string name="paymentCart">Xác nhận thanh toán?</string>
+    <string name="failPayment">Đơn không được tạo!</string>
+    <string name="succesPayment">Vui lòng quét QR để thanh toán!</string>
 
 </resources>
