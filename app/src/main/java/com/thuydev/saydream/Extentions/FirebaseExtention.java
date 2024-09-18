@@ -101,6 +101,11 @@ public class FirebaseExtention {
         db.collection(Tag.DTO_PRODUCT).document(idProduct).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Log.e(Tag.TAG_LOG, "onComplete: "+(task.getResult()==null) );
+                if (task.getResult()==null){{
+                    GetProduct(idProduct,action);
+                    return;
+                }}
                 action.CallBack(task.getResult().toObject(Product.class));
             }
         }).addOnFailureListener(new OnFailureListener() {

@@ -85,7 +85,7 @@ public class ActivitySeeMoreProduct extends AppCompatActivity {
         db.collection(Tag.DTO_PRODUCT).whereEqualTo("idCategory",idCate).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(!task.getResult().isEmpty()){
+                if(task.getResult().isEmpty()){
                     Toast.makeText(ActivitySeeMoreProduct.this, R.string.error, Toast.LENGTH_SHORT).show();
                     GetProducts();
                     return;
