@@ -12,33 +12,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <ImageView
             android:id="@+id/img_shoe"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
             android:src="@drawable/logo1"/>
+
         <TextView
             android:id="@+id/tv_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mới"
-            android:textColor="@color/black"
-            android:textSize="20sp"/>
+            android:text="New"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.000.000 VNĐ"
-            android:textColor="@color/cam"
-            android:textSize="20sp"/>
+            android:text="Price"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="16sp"/>
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tên sản phẩm: "
-            android:textColor="@color/black"
-            android:textSize="20sp"/>
+            android:text="Name"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
