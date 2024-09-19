@@ -20,6 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.thuydev.saydream.Activity.ActivityMain;
+import com.thuydev.saydream.DTO.Cart;
+import com.thuydev.saydream.DTO.Categoty;
 import com.thuydev.saydream.DTO.Product;
 import com.thuydev.saydream.DTO.User;
 import com.thuydev.saydream.Interface.ICallBackAction;
@@ -107,6 +109,20 @@ public class FirebaseExtention {
                     return;
                 }}
                 action.CallBack(task.getResult().toObject(Product.class));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(Tag.TAG_LOG, "onFailure: ",e );
+            }
+        });
+    }
+    public static void GetCategory(String idProduct,ICallBackAction action){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Tag.DTO_CATEGORY).document(idProduct).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                action.CallBack(task.getResult().toObject(Categoty.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
