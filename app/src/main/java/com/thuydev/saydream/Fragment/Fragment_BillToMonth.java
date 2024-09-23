@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.thuydev.saydream.databinding.FragmentCuahangBinding;
 import com.thuydev.saydream.databinding.FragmentGioHangBinding;
+import com.thuydev.saydream.databinding.TabKhoanchiBinding;
 
-public class Fragment_Cart extends Fragment {
-    FragmentGioHangBinding view;
+public class Fragment_BillToMonth extends Fragment {
+    TabKhoanchiBinding view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = FragmentGioHangBinding.inflate(getLayoutInflater());
+        view = TabKhoanchiBinding.inflate(getLayoutInflater());
         return view.getRoot();
     }
 

@@ -8,7 +8,7 @@ public class Bill {
     private String time;
     private int quantity;
     private int status;
-
+    private Long totalPrice;
     public Bill() {
     }
 
@@ -20,6 +20,14 @@ public class Bill {
         this.time = time;
         this.quantity = quantity;
         this.status = status;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getId() {

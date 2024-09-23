@@ -30,17 +30,6 @@
                 android:textColor="#E6903B"
                 android:textSize="30dp"
                 android:textStyle="bold"/>
-            <EditText
-                android:id="@+id/edt_nhapmkcu"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/shape_edittext"
-                android:hint="@string/old_password"
-                android:padding="10dp"
-                android:inputType="textPassword"
-                android:textColor="#E6903B"
-                android:textColorHint="#E6903B" />
 
             <EditText
                 android:id="@+id/edt_nhapmkmoi"

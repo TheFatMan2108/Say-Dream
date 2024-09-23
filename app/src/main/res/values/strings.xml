@@ -65,5 +65,37 @@
     <string name="paymentCart">Xác nhận thanh toán?</string>
     <string name="failPayment">Đơn không được tạo!</string>
     <string name="succesPayment">Vui lòng quét QR để thanh toán!</string>
+    <string name="InfoProfile">Thông tin cá nhân</string>
+    <string name="buyInMonth">Khoản chi trong tháng</string>
+    <string name="min100K">Số tiền ít nhất phải là 100.000 VND</string>
+    <string name="waitMinute">Vui lòng chờ vài phút để hệ thống kiểm tra</string>
+    <string name="isNumber">Phải nhập số</string>
+    <string name="GetPermission">Bạn cần cấp quyền để sử dụng tính năng này</string>
+    <string name="errorGetLink">Lỗi khi lấy đường dẫn</string>
+    <string name="WrongNumberPhone">Số điện thoại không đúng định dạng</string>
+    <string name="UpdateProfileComplate">Cập nhật tài khoản thành công</string>
+    <string name="WrongPassword">Mật khẩu không đúng</string>
+    <string name="UpdatePassCompalete">Cập nhật mật khẩu thành công</string>
+    <string name="Notifi">Thông báo</string>
+    <string name="signOutUser">Bạn có muốn đăng xuất</string>
+    <string name="no">Không</string>
+    <string name="yes">Có</string>
+    <string name="FomatAddess">Số nhà,Ngõ,Đường,Quận,Thành Phố</string>
+    <string name="address">Địa chỉ</string>
+    <string name="deleteEver">Nếu bạn xác nhận dữ liệu sẽ mất mãi mãi</string>
+    <string name="deleteComplate">Xóa thành công</string>
+    <string name="choiceAddress">Đơn hàng của bạn sẽ được giao tới địa chỉ này</string>
+    <string name="totalPrice">Tổng giá</string>
+    <string name="idBill">Mã đơn hàng</string>
+    <string name="staff">Người duyệt</string>
+    <string name="date">Ngày mua</string>
+    <string name="waitDone">Đang chờ xác nhận</string>
+    <string name="doneBill">Đã xác nhận đơn</string>
+    <string name="cancelBill">Đơn hàng bị từ chối</string>
+    <string name="Nothing">Không có gì ở đây</string>
+    <string name="wait">Đang chờ</string>
+    <string name="done">Đã xác nhận</string>
+    <string name="history_DepositMoneyBill">Lịch sử nạp</string>
+    <string name="language">Ngôn ngữ</string>
 
 </resources>

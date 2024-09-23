@@ -9,4 +9,6 @@ public class Tag {
     public static final String DTO_CATEGORY = "Category";
     public static final String DTO_CART = "Cart";
     public static final String DTO_BILL = "Bill";
+    public static final String DTO_Money = "DepositMoney";
+    public static final String DTO_User = "User";
 }

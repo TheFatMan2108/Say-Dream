@@ -83,7 +83,7 @@ public class ActivitySignUp extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (user==null)return;
-        User n_user = new User(user.getUid(),user.getEmail(),"",1,0L);
+        User n_user = new User(user.getUid(),user.getEmail(),"","","",1,0L);
         db.collection("User").document(user.getUid()).set(n_user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

@@ -16,9 +16,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Fragment.Fragment_Bill;
 import com.thuydev.saydream.Fragment.Fragment_Shop;
 import com.thuydev.saydream.Fragment.Fragment_frg_Home;
+import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.ActivityManHinhKhachHangBinding;
 
@@ -55,7 +57,12 @@ public class ActivityMain extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.menu_khachhang_hoadon) {
                     ChangeFragment(new Fragment_Bill());
                 } else if (item.getItemId() == R.id.menu_khachhang_thongtincanhan) {
-                    //
+                    ActivityExtentions.NextActivity(ActivityMain.this, ActivityProfile.class, new ICallBackAction() {
+                        @Override
+                        public void CallBack(Object... obj) {
+
+                        }
+                    });
                     return false;
                 } else {
                     Toast.makeText(ActivityMain.this, "Lỗi xảy ra", Toast.LENGTH_SHORT).show();

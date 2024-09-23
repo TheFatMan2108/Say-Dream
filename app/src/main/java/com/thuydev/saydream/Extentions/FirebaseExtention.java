@@ -1,13 +1,20 @@
 package com.thuydev.saydream.Extentions;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +26,7 @@ import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.thuydev.saydream.Activity.ActivityCart;
 import com.thuydev.saydream.Activity.ActivityMain;
 import com.thuydev.saydream.DTO.Cart;
 import com.thuydev.saydream.DTO.Categoty;
@@ -26,6 +34,7 @@ import com.thuydev.saydream.DTO.Product;
 import com.thuydev.saydream.DTO.User;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
+import com.thuydev.saydream.databinding.DialogAnhBinding;
 
 public class FirebaseExtention {
     public static void CheckBanAccount(FirebaseUser user, Activity oldActivity, FirebaseFirestore db, ICallBackAction action) {

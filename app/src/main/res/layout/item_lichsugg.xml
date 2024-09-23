@@ -70,29 +70,30 @@
                 android:id="@+id/tv_trangThai_gg"
                 />
         </LinearLayout>
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="end"
-           >
-           <TextView
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:text="@string/time"
-               android:layout_weight="1"
-               android:textColor="@color/black"
 
-               />
-           <TextView
-               android:layout_marginLeft="10dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="MGG"
-               android:textColor="#FF1100"
-               android:textStyle="bold"
-               android:id="@+id/tv_thoigiangg"
-               />
-       </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+
+            />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MGG"
+            android:textColor="#FF1100"
+            android:textStyle="bold"
+            android:id="@+id/tv_thoigiangg"
+            />
     </LinearLayout>
 
 
