@@ -1,7 +1,14 @@
 package com.thuydev.saydream.Adapter;
 
+import static android.content.ContentValues.TAG;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -11,27 +18,40 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.thuydev.saydream.Activity.ActivityCart;
 import com.thuydev.saydream.DTO.Bill;
 import com.thuydev.saydream.DTO.Cart;
 import com.thuydev.saydream.DTO.Product;
+import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Extentions.FomatExtention;
 import com.thuydev.saydream.Extentions.Tag;
+import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
+import com.thuydev.saydream.databinding.DialogThemHangBinding;
 import com.thuydev.saydream.databinding.ItemChodonBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
 ItemChodonBinding view;
 Context context;
 List<Bill> list;
-
-    public BillAdapter(Context context, List<Bill> list) {
+BillAdapterDetail adapter;
+ICallBackAction reloadList;
+    private ProgressDialog progressDialog;
+    public BillAdapter(Context context, List<Bill> list,ICallBackAction action) {
         this.context = context;
         this.list = list;
+        reloadList = action;
+        progressDialog = new ProgressDialog(context);
     }
 
     @NonNull
@@ -42,7 +62,7 @@ List<Bill> list;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String Xanh = "#44cc00";
         String Do = "#FF0000";
         String Cam = "#FFC107";
@@ -68,12 +88,13 @@ List<Bill> list;
             holder.reBuy.setVisibility(View.GONE);
         } else if (bill.getStatus() == 1) {
             holder.status.setText(R.string.doneBill);
-            holder.reBuy.setVisibility(View.GONE);
+            holder.reBuy.setVisibility(View.VISIBLE);
+            holder.reBuy.setText(R.string.reBuy);
             holder.status.setTextColor(Color.parseColor(Xanh));
         } else if (bill.getStatus() == 3) {
             holder.status.setText(R.string.cancelBill);
             holder.status.setTextColor(Color.parseColor(Do));
-            holder.reBuy.setVisibility(View.VISIBLE);
+            holder.reBuy.setVisibility(View.GONE);
         } else {
             holder.status.setText(R.string.error);
         }
@@ -82,6 +103,32 @@ List<Bill> list;
             @Override
             public void onClick(View v) {
                 // viet ham mua lai o day
+                new AlertDialog.Builder((Activity)context)
+                        .setTitle(R.string.deleteCart)
+                        .setMessage(R.string.paymentCart)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+
+
+                                payment(position,new ICallBackAction() {
+                                    @Override
+                                    public void CallBack(Object... obj) {
+                                        String url = obj[0].toString();
+                                        ActivityExtentions.ShowQR(url,(Activity)context);
+                                        reloadList.CallBack();
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
             }
         });
 
@@ -89,9 +136,68 @@ List<Bill> list;
             @Override
             public void onClick(View v) {
                 // viet ham hien thi chi tiet bill o day : cac san pham va so luong tung san pham
+                adapter= new BillAdapterDetail(list.get(position).getListSP(),context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                DialogThemHangBinding view1 = DialogThemHangBinding.inflate(((Activity)context).getLayoutInflater());
+                builder.setView(view1.getRoot());
+                Dialog dialog = builder.create();
+                dialog.show();
+
+                view1.ibtnAddhang.setVisibility(View.GONE);;
+                view1.edtThemhang.setVisibility(View.GONE);;
+                String title = context.getString(R.string.titleBilldetail);
+                view1.tvTittle2.setText(title);
+                view1.listHang.setAdapter(adapter);
+
+
             }
         });
 
+    }
+    private void payment(Integer i ,ICallBackAction callBackAction) {
+        ShowProgressDialog();
+        Map<String, Object> data = new HashMap<>();
+        String id = UUID.randomUUID().toString();
+        String idUser = FirebaseAuth.getInstance().getUid();
+        data.put("id", id);
+        data.put("totalPrice", list.get(i).getTotalPrice());
+        data.put("listSP", list.get(i).getListSP());
+        data.put("idUser", idUser);
+        data.put("idStaff", "?");
+        data.put("date", ActivityExtentions.getDate());
+        data.put("status", 0);
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Tag.DTO_BILL)
+                .document(id)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        String urlTemplate = "https://img.vietqr.io/image/vietinbank-101870446659-compact2.jpg?amount=%d&addInfo=%s";
+                        String formattedUrl = String.format(urlTemplate, list.get(i).getTotalPrice(), id);
+                        callBackAction.CallBack(formattedUrl);
+                        progressDialog.dismiss();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        new AlertDialog.Builder((Activity)context)
+                                .setTitle(R.string.deleteCart)
+                                .setMessage(R.string.failPayment)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Hành động khi bấm OK
+                                        dialog.dismiss(); // Đóng dialog
+                                    }
+                                })
+                                .show();
+                    }
+                });
     }
     private long getTotalQuantity(Bill bill){
         long totalQuantity = 0;
@@ -122,5 +228,11 @@ List<Bill> list;
             date = view.tvNgayMua;
             staff = view.tvNguoiduyet;
         }
+    }
+
+    private void ShowProgressDialog() {
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage(context.getString(R.string.MessageLoading));
+        progressDialog.show();
     }
 }

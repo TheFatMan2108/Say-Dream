@@ -47,7 +47,12 @@ public class Fragment_Bill extends Fragment {
         lstBill  = new ArrayList<>();
 
         loadBillData();
-        adapter = new BillAdapter(getContext(),lstBill);
+        adapter = new BillAdapter(getContext(), lstBill, new ICallBackAction() {
+            @Override
+            public void CallBack(Object... obj) {
+                loadBillData();
+            }
+        });
         viewLayout.rcvListDoncho.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         viewLayout.rcvListDoncho.setAdapter(adapter);
     }

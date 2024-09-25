@@ -16,6 +16,7 @@ import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.DialogAnhBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,5 +50,10 @@ public class ActivityExtentions {
         return String.format("%02d/%02d/%02d", Calendar.getInstance().get(Calendar.DAY_OF_MONTH), (Calendar.getInstance().get(Calendar.MONTH)+1), Calendar.getInstance().get(Calendar.YEAR)) +"/ - "+
                 String.format("%02d:%02d:%02d",new Date().getHours(),new Date().getMinutes(),new Date().getSeconds());
 
+    }
+    public static String getDate () {
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(now);
     }
 }

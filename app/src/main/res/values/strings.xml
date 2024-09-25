@@ -98,5 +98,10 @@
     <string name="history_DepositMoneyBill">Lịch sử nạp</string>
     <string name="language">Ngôn ngữ</string>
     <string name="emptyCart">Không có sản phẩm nào trong giỏ hàng!</string>
+    <string name="idProduct">Mã sản phẩm</string>
+    <string name="nameProduct">Tên sản phẩm</string>
+    <string name="priceProduct">Giá</string>
+    <string name="titleBilldetail">Hoá đơn chi tiết</string>
+    <string name="reBuy">Mua lại</string>
 
 </resources>

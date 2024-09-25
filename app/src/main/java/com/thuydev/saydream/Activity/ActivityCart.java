@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.thuydev.saydream.Adapter.CartAdapter;
 
 import com.thuydev.saydream.DTO.Cart;
+import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Extentions.FomatExtention;
 import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.Interface.ICallBackAction;
@@ -112,7 +113,7 @@ public class ActivityCart extends AppCompatActivity {
                                     @Override
                                     public void CallBack(Object... obj) {
                                         String url = obj[0].toString();
-                                        showQR(url);
+                                        ActivityExtentions.ShowQR(url,ActivityCart.this);
                                         deleteAllCart();
                                     }
                                 });
@@ -167,7 +168,7 @@ public class ActivityCart extends AppCompatActivity {
         data.put("listSP", listCart);
         data.put("idUser", idUser);
         data.put("idStaff", "?");
-        data.put("date", getDate());
+        data.put("date", ActivityExtentions.getDate());
         data.put("status", 0);
 
 
@@ -203,20 +204,7 @@ public class ActivityCart extends AppCompatActivity {
                 });
     }
 
-    private void showQR(String anh) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCart.this);
-        View view = (this).getLayoutInflater().inflate(R.layout.dialog_anh, null, false);
-        builder.setView(view);
-        Dialog dialog = builder.create();
-        dialog.show();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        ImageView imageView = view.findViewById(R.id.imv_anh_gg);
 
-//        imageView.setImageDrawable(anh.getDrawable());
-
-        Glide.with(this).load(anh)
-                .error(R.drawable.baseline_crop_original_24).into(imageView);
-    }
 
     private void loadCartData() {
         getListCart(new ICallBackAction() {
@@ -253,9 +241,4 @@ public class ActivityCart extends AppCompatActivity {
         progressDialog.show();
     }
 
-    private String getDate() {
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return sdf.format(now);
-    }
 }
