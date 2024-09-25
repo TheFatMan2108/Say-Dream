@@ -63,6 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Ngày"
+                    android:maxLength="20"
                     android:textColor="@color/black"
                     android:id="@+id/tv_ngay_mua"
                     android:layout_weight="1" />

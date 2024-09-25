@@ -97,5 +97,6 @@
     <string name="done">Đã xác nhận</string>
     <string name="history_DepositMoneyBill">Lịch sử nạp</string>
     <string name="language">Ngôn ngữ</string>
+    <string name="emptyCart">Không có sản phẩm nào trong giỏ hàng!</string>
 
 </resources>

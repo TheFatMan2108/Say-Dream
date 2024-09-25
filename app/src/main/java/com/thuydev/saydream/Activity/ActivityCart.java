@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +39,13 @@ import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.FragmentGioHangBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 
 
 public class ActivityCart extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class ActivityCart extends AppCompatActivity {
     List<Cart> listCart;
     Long totalPrice = 0L;
     private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +85,29 @@ public class ActivityCart extends AppCompatActivity {
         view.llThemgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadCartData();
+                if (listCart.isEmpty()) {
+                    new AlertDialog.Builder(ActivityCart.this)
+                            .setMessage(R.string.emptyCart)
+                            .setTitle(R.string.deleteCart)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
+                }else {
+
+
                 new AlertDialog.Builder(ActivityCart.this)
                         .setTitle(R.string.deleteCart)
                         .setMessage(R.string.paymentCart)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
+
+
                                 payment(new ICallBackAction() {
                                     @Override
                                     public void CallBack(Object... obj) {
@@ -106,13 +126,14 @@ public class ActivityCart extends AppCompatActivity {
                         }).show();
                 Log.e(TAG, "onClick: " + totalPrice);
             }
+            }
         });
 
     }
 
     private void deleteAllCart() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        for (Cart c: listCart){
+        for (Cart c : listCart) {
             db.collection(Tag.DTO_CART).document(c.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -146,8 +167,9 @@ public class ActivityCart extends AppCompatActivity {
         data.put("listSP", listCart);
         data.put("idUser", idUser);
         data.put("idStaff", "?");
-        data.put("date", System.currentTimeMillis());
+        data.put("date", getDate());
         data.put("status", 0);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Tag.DTO_BILL)
@@ -205,7 +227,7 @@ public class ActivityCart extends AppCompatActivity {
                 listCart.clear();
                 listCart.addAll((List<Cart>) obj[0]);
                 cartAdapter.notifyDataSetChanged();
-                Log.e(TAG, "CallBack: "+totalPrice );// Cập nhật adapter khi có dữ liệu mới
+
             }
         });
     }
@@ -224,9 +246,16 @@ public class ActivityCart extends AppCompatActivity {
             }
         });
     }
+
     private void ShowProgressDialog() {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage(getString(R.string.MessageLoading));
         progressDialog.show();
+    }
+
+    private String getDate() {
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return sdf.format(now);
     }
 }

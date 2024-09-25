@@ -72,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, int position) {
         Cart cart = listCart.get(position);
         progressDialog = new ProgressDialog(context);
-        Log.e(Tag.TAG_LOG, "onBindViewHolder: " + cart.getQuantity());
+
 
         FirebaseExtention.GetProduct(cart.getIdProducts(), new ICallBackAction() {
             @Override

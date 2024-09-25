@@ -3,6 +3,7 @@ package com.thuydev.saydream.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,11 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thuydev.saydream.DTO.Bill;
+import com.thuydev.saydream.DTO.Cart;
+import com.thuydev.saydream.DTO.Product;
 import com.thuydev.saydream.Extentions.FomatExtention;
+import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.ItemChodonBinding;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
 ItemChodonBinding view;
@@ -47,10 +54,12 @@ List<Bill> list;
         String staff = context.getString(R.string.staff);
         String date = context.getString(R.string.date);
 
+
         holder.price.setText(String.format("%s: %s", priceTotal, FomatExtention.MakeStyleMoney(bill.getTotalPrice())));
         holder.name.setText(String.format("%s: %s", id, bill.getId()));
-        holder.quantity.setText(String.format("%s: %s", quantity, bill.getQuantity()));
-        holder.date.setText(String.format("%s: %s", date, bill.getTime()));
+        holder.quantity.setText(String.format("%s: %s", quantity, getTotalQuantity(bill)));
+        holder.date.setText(String.format("%s: %s", date, bill.getDate()));
+
         holder.staff.setText(String.format("%s: %s", staff, bill.getIdStaff()));
 
         if (bill.getStatus() == 0) {
@@ -83,6 +92,16 @@ List<Bill> list;
             }
         });
 
+    }
+    private long getTotalQuantity(Bill bill){
+        long totalQuantity = 0;
+            if (bill.getListSP()!=null){
+                for (Cart cart : bill.getListSP()) {
+                    totalQuantity += cart.getQuantity();
+
+                }
+            }
+        return totalQuantity;
     }
 
     @Override
