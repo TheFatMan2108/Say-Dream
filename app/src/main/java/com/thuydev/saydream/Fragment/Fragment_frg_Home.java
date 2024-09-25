@@ -1,39 +1,149 @@
 package com.thuydev.saydream.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.thuydev.saydream.Adapter.CategoryAdapter;
-import com.thuydev.saydream.Adapter.PhotoAdapter;
-import com.thuydev.saydream.Model.Category;
-import com.thuydev.saydream.Model.Photo;
-import com.thuydev.saydream.Model.Shoe;
-import com.thuydev.saydream.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.thuydev.saydream.Activity.ActivityCart;
+import com.thuydev.saydream.Adapter.ShopCateAdapter;
+import com.thuydev.saydream.Adapter.PhotoAdapter;  // Thêm PhotoAdapter
+import com.thuydev.saydream.DTO.Categoty;
+import com.thuydev.saydream.DTO.Photo;  // Thêm model Photo
+import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.databinding.FragmentFrgHomeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.relex.circleindicator.CircleIndicator3;
-
 public class Fragment_frg_Home extends Fragment {
 
-    private FragmentFrgHomeBinding binding;
-    private List<Photo> mListPhoto;
-    private CategoryAdapter categoryAdapter;
+    FragmentFrgHomeBinding binding;
+    List<Categoty> listCate;
+    ShopCateAdapter shopCateAdapter;
+
+    // Danh sách ảnh cho slider
+    List<Photo> mListPhoto;
+    PhotoAdapter photoAdapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = FragmentFrgHomeBinding.inflate(getLayoutInflater());
+        Log.e(Tag.TAG_LOG, "onCreateView: "+(binding == null));
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Thiết lập slider ảnh
+        mListPhoto = new ArrayList<>();
+        photoAdapter = new PhotoAdapter(getContext(), mListPhoto);
+        binding.viewPager2.setAdapter(photoAdapter);
+        binding.circleIndicator3.setViewPager(binding.viewPager2);
+
+        // Lấy ảnh từ Firebase
+        getListPhotoFromFirebase();
+
+        // Thiết lập tự động chuyển ảnh
+        mHandler.postDelayed(mRunnable, 3000);
+
+        // Thiết lập danh sách sản phẩm
+        listCate = new ArrayList<>();
+        shopCateAdapter = new ShopCateAdapter(getContext(), listCate);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        binding.rcvCuaHang.setAdapter(shopCateAdapter);
+        binding.rcvCuaHang.setLayoutManager(layoutManager);
+        binding.cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ActivityCart.class);
+                startActivity(intent);
+            }
+        });
+
+        GetListCate();
+
+        binding.svTimsp.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                shopCateAdapter.getFilter().filter(newText);
+                shopCateAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    // Phương thức lấy ảnh từ Firebase Firestore (collection Product)
+    private void getListPhotoFromFirebase() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Product")  // Collection "Product"
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mListPhoto.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String imageUrl = document.getString("image");  // Lấy trường "image" từ document
+                                if (imageUrl != null) {
+                                    mListPhoto.add(new Photo(imageUrl));  // Thêm vào danh sách ảnh
+                                }
+                            }
+                            photoAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.e("Firebase", "Error getting products: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    // Phương thức lấy danh sách danh mục sản phẩm
+    private void GetListCate() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Tag.DTO_CATEGORY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                listCate.clear();
+                listCate.addAll(task.getResult().toObjects(Categoty.class));
+                shopCateAdapter.notifyDataSetChanged();
+                Log.e(Tag.TAG_LOG, "onComplete: " + listCate.size());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(Tag.TAG_LOG, "onComplete: " + "Lỗi");
+            }
+        });
+    }
+
+    // Runnable cho slider ảnh
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -43,76 +153,9 @@ public class Fragment_frg_Home extends Fragment {
             } else {
                 binding.viewPager2.setCurrentItem(currentPosition + 1);
             }
+            mHandler.postDelayed(this, 3000);  // Chuyển ảnh mỗi 3 giây
         }
     };
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentFrgHomeBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Setup Toolbar (nếu có cần thiết để xử lý sự kiện)
-        setupToolbar();
-
-        // Setup ViewPager2 cho ảnh
-        mListPhoto = getListPhoto();
-        PhotoAdapter photoAdapter = new PhotoAdapter(requireActivity(), mListPhoto);
-        binding.viewPager2.setAdapter(photoAdapter);
-        binding.circleIndicator3.setViewPager(binding.viewPager2);
-
-        // Tự động chuyển ảnh
-        binding.viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                mHandler.removeCallbacks(mRunnable);
-                mHandler.postDelayed(mRunnable, 3000);
-            }
-        });
-
-        // Setup RecyclerView cho danh mục
-        categoryAdapter = new CategoryAdapter(requireContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-        binding.rcvCategory.setLayoutManager(linearLayoutManager);
-
-        categoryAdapter.setData(getListCategory());
-        binding.rcvCategory.setAdapter(categoryAdapter);
-    }
-
-    private void setupToolbar() {
-        // Ở đây bạn có thể thêm xử lý sự kiện cho Toolbar nếu cần
-    }
-
-    private List<Photo> getListPhoto() {
-        List<Photo> list = new ArrayList<>();
-        list.add(new Photo(R.drawable.logo1));
-        list.add(new Photo(R.drawable.logo2));
-        list.add(new Photo(R.drawable.logo3));
-        list.add(new Photo(R.drawable.logo4));
-        list.add(new Photo(R.drawable.logo3));
-        list.add(new Photo(R.drawable.logo2));
-
-
-
-        return list;
-    }
-
-    private List<Category> getListCategory() {
-        List<Category> listCategory = new ArrayList<>();
-        List<Shoe> listShoe = new ArrayList<>();
-        listShoe.add(new Shoe(R.drawable.logo1, "Mới", "1.000.000 VNĐ", "Giày AF1"));
-        listShoe.add(new Shoe(R.drawable.logo2, "Mới", "1.000.000 VNĐ", "Giày AF1"));
-        listShoe.add(new Shoe(R.drawable.logo3, "Cũ", "500.000 VNĐ", "Giày AF1"));
-        listShoe.add(new Shoe(R.drawable.logo4, "Cũ", "1.000.000 VNĐ", "Giày AF1"));
-        listCategory.add(new Category("Sản phẩm mới", listShoe));
-        return listCategory;
-    }
 
     @Override
     public void onPause() {

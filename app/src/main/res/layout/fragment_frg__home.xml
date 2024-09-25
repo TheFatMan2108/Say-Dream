@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"
         app:ci_drawable="@drawable/shape_btn" />
 
     <RelativeLayout
@@ -58,10 +57,9 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_category"
+            android:id="@+id/rcv_cuaHang"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
 </LinearLayout>
