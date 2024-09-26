@@ -21,9 +21,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.thuydev.saydream.Adapter.BillAdapter;
 import com.thuydev.saydream.DTO.Bill;
+import com.thuydev.saydream.Extentions.Tag;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
-import com.thuydev.saydream.databinding.FragmentGioHangBinding;
 import com.thuydev.saydream.databinding.TabKhoanchiBinding;
 
 import java.text.NumberFormat;
@@ -42,12 +42,13 @@ public class Fragment_BillToMonth extends Fragment {
     List<Bill> list;
     FirebaseFirestore db;
     LocalDate dateStart = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
-    LocalDate dateEnd= LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+    LocalDate dateEnd = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     String ngayStart = formatter.format(dateStart);
-    String ngayEnd=formatter.format(dateEnd);
-    FirebaseUser user ;
-    Long tong=0l;
+    String ngayEnd = formatter.format(dateEnd);
+    FirebaseUser user;
+    Long tong = 0l;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,32 +69,44 @@ public class Fragment_BillToMonth extends Fragment {
         list = new ArrayList<>();
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        getData();
+        loadBillToMoth();
         billAdapter = new BillAdapter(getContext(), list, new ICallBackAction() {
             @Override
             public void CallBack(Object... obj) {
-                // Không làm gì cả, hoặc thực hiện một hành động mặc định
+                loadBillToMoth();
             }
         });
-
         rcv_list.setAdapter(billAdapter);
         rcv_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
     }
-    private void getData() {
-        db.collection("donHangDaDuyet")
-                .whereGreaterThanOrEqualTo("ngayMua", ngayStart)
-                .whereLessThanOrEqualTo("ngayMua", ngayEnd).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+    private void loadBillToMoth() {
+        getData(new ICallBackAction() {
+            @Override
+            public void CallBack(Object... obj) {
+                list.clear();
+                list.addAll((List<Bill>) obj[0]);
+                billAdapter.notifyDataSetChanged();
+
+            }
+        });
+    }
+
+    private void getData(ICallBackAction iCallBackAction) {
+        db.collection(Tag.DTO_BILL)
+                .whereGreaterThanOrEqualTo("date", ngayStart)
+                .whereLessThanOrEqualTo("date", ngayEnd).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isComplete()){
+                        if (!task.isComplete()) {
                             return;
                         }
                         list.clear();
-                        for (QueryDocumentSnapshot dc : task.getResult()){
-                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())){
+                        for (QueryDocumentSnapshot dc : task.getResult()) {
+                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
                                 list.add(dc.toObject(Bill.class));
-                                tong+=dc.toObject(Bill.class).getTotalPrice();
-                                tongGia.setText("Giá: "+ NumberFormat.getNumberInstance(Locale.getDefault()).format(tong)+" VND");
+                                tong += dc.toObject(Bill.class).getTotalPrice();
+                                tongGia.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
                                 billAdapter.notifyDataSetChanged();
                             }
                         }
