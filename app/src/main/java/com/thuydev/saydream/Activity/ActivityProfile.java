@@ -491,7 +491,12 @@ public class ActivityProfile extends AppCompatActivity {
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         List<Bill> billList = new ArrayList<>();
-        BillAdapter billAdapter = new BillAdapter(this,billList);
+        BillAdapter billAdapter = new BillAdapter(this, billList, new ICallBackAction() {
+            @Override
+            public void CallBack(Object... obj) {
+
+            }
+        });
         viewDialog.rcvListLichsu.setAdapter(billAdapter);
         viewDialog.rcvListLichsu.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         GetBillList(new ICallBackAction() {

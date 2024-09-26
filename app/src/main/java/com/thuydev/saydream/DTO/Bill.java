@@ -1,32 +1,27 @@
 package com.thuydev.saydream.DTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bill {
     private String id;
     private String idUser;
     private String idStaff;
-    private String[] idProducts;
-    private String time;
-    private int quantity;
+    private ArrayList<Cart> listSP;
+    private String date;
+
     private int status;
     private Long totalPrice;
     public Bill() {
     }
 
-    public Bill(String id, String idUser, String idStaff, String[] idProducts, String time, int quantity, int status) {
+    public Bill(String id, String idUser, String idStaff, ArrayList<Cart> listSP, String date, int status, Long totalPrice) {
         this.id = id;
         this.idUser = idUser;
         this.idStaff = idStaff;
-        this.idProducts = idProducts;
-        this.time = time;
-        this.quantity = quantity;
+        this.listSP = listSP;
+        this.date = date;
         this.status = status;
-    }
-
-    public Long getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Long totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -54,28 +49,20 @@ public class Bill {
         this.idStaff = idStaff;
     }
 
-    public String[] getIdProducts() {
-        return idProducts;
+    public ArrayList<Cart> getListSP() {
+        return listSP;
     }
 
-    public void setIdProducts(String[] idProducts) {
-        this.idProducts = idProducts;
+    public void setListSP(ArrayList<Cart> listSP) {
+        this.listSP = listSP;
     }
 
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getStatus() {
@@ -84,5 +71,13 @@ public class Bill {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
