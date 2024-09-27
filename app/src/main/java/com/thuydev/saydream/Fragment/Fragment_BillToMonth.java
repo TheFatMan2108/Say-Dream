@@ -101,7 +101,7 @@ public class Fragment_BillToMonth extends Fragment {
                         if (!task.isComplete()) {
                             return;
                         }
-                        list.clear();
+
 //                        for (QueryDocumentSnapshot dc : task.getResult()) {
 //                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
 //                                list.add(dc.toObject(Bill.class));
