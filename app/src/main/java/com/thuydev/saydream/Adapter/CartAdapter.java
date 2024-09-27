@@ -2,6 +2,8 @@ package com.thuydev.saydream.Adapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -29,6 +31,7 @@ import com.thuydev.saydream.Activity.ActivityCart;
 import com.thuydev.saydream.DTO.Cart;
 import com.thuydev.saydream.DTO.Categoty;
 import com.thuydev.saydream.DTO.Product;
+import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Extentions.FirebaseExtention;
 import com.thuydev.saydream.Extentions.FomatExtention;
 import com.thuydev.saydream.Extentions.Tag;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -93,14 +97,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
                         String quantityText = context.getString(R.string.quantity) + ": " + cart.getQuantity();
                         holder.tv_SoLuongSP_GioHang.setText(quantityText);
-
+                        Log.e(TAG, "product: "+product.getPrice() );
+                        Log.e(TAG, "cart: "+cart.getQuantity() );
                         Long price = product.getPrice() * cart.getQuantity();
                         holder.price = price;
                         holder.tv_GiaSP_GioHang.setText(FomatExtention.MakeStyleMoney(price));
                         String categoryText = context.getString(R.string.category) + ": " + categoty.getName();
                         holder.tv_ThuongHieu_GioHang.setText(categoryText);
 
-                        callBackTotal.CallBack(product.getPrice() * cart.getQuantity());
+                        callBackTotal.CallBack(price);
 
 
                     }
@@ -147,7 +152,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                                     @Override
                                     public void CallBack(Object... obj) {
                                         String url = obj[0].toString();
-                                        showQR(url);
+                                        ActivityExtentions.ShowQR(url,(Activity) context);
                                         deleteItemWhenPayment(cart.getId(), callBackAction);
                                     }
                                 });
@@ -224,14 +229,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private void payment(Cart cart, Long price, ICallBackAction callBackAction) {
         ShowProgressDialog();
         Map<String, Object> data = new HashMap<>();
+        List<Cart> nList = new ArrayList<>();
+        nList.add(cart);
         String id = UUID.randomUUID().toString();
         String idUser = FirebaseAuth.getInstance().getUid();
         data.put("id", id);
         data.put("totalPrice", price);
-        data.put("listSP", cart);
+        data.put("listSP", nList);
         data.put("idUser", idUser);
         data.put("idStaff", "?");
-        data.put("date", System.currentTimeMillis());
+        data.put("date", ActivityExtentions.getDate());
         data.put("status", 0);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -242,7 +249,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     @Override
                     public void onSuccess(Void unused) {
                         String urlTemplate = "https://img.vietqr.io/image/vietinbank-101870446659-compact2.jpg?amount=%d&addInfo=%s";
-                        String formattedUrl = String.format(urlTemplate, price, id);
+                        @SuppressLint("DefaultLocale") String formattedUrl = String.format(urlTemplate, price, id);
                         callBackAction.CallBack(formattedUrl);
                         progressDialog.dismiss();
                     }
@@ -272,7 +279,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         builder.setView(view);
         Dialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         ImageView imageView = view.findViewById(R.id.imv_anh_gg);
 
 //        imageView.setImageDrawable(anh.getDrawable());

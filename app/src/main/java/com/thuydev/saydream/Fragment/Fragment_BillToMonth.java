@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,9 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Fragment_BillToMonth extends Fragment {
-    TabKhoanchiBinding view;
-    RecyclerView rcv_list;
-    TextView tongGia;
+    TabKhoanchiBinding viewbinding;
     BillAdapter billAdapter;
     List<Bill> list;
     FirebaseFirestore db;
@@ -53,8 +49,8 @@ public class Fragment_BillToMonth extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = TabKhoanchiBinding.inflate(getLayoutInflater());
-        return view.getRoot();
+        viewbinding = TabKhoanchiBinding.inflate(getLayoutInflater());
+        return viewbinding.getRoot();
     }
 
     @Override
@@ -64,35 +60,21 @@ public class Fragment_BillToMonth extends Fragment {
     }
 
     private void anhXa(View view) {
-        rcv_list = view.findViewById(R.id.rcv_list_khoanchi);
-        tongGia = view.findViewById(R.id.tv_tonggia_khoanchi);
         list = new ArrayList<>();
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        loadBillToMoth();
         billAdapter = new BillAdapter(getContext(), list, new ICallBackAction() {
             @Override
             public void CallBack(Object... obj) {
-                loadBillToMoth();
-            }
-        });
-        rcv_list.setAdapter(billAdapter);
-        rcv_list.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-    }
-
-    private void loadBillToMoth() {
-        getData(new ICallBackAction() {
-            @Override
-            public void CallBack(Object... obj) {
-                list.clear();
-                list.addAll((List<Bill>) obj[0]);
-                billAdapter.notifyDataSetChanged();
 
             }
         });
+        viewbinding.rcvListKhoanchi.setAdapter(billAdapter);
+        viewbinding.rcvListKhoanchi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        getData();
     }
 
-    private void getData(ICallBackAction iCallBackAction) {
+    private void getData() {
         db.collection(Tag.DTO_BILL)
                 .whereGreaterThanOrEqualTo("date", ngayStart)
                 .whereLessThanOrEqualTo("date", ngayEnd).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -101,16 +83,15 @@ public class Fragment_BillToMonth extends Fragment {
                         if (!task.isComplete()) {
                             return;
                         }
-
-//                        for (QueryDocumentSnapshot dc : task.getResult()) {
-//                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
-//                                list.add(dc.toObject(Bill.class));
-//                                tong += dc.toObject(Bill.class).getTotalPrice();
-//                                tongGia.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
-//                                billAdapter.notifyDataSetChanged();
-//                            }
-//                        }
-                        iCallBackAction.CallBack(task.getResult().toObjects(Bill.class));
+                        list.clear();
+                        for (QueryDocumentSnapshot dc : task.getResult()) {
+                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
+                                list.add(dc.toObject(Bill.class));
+                                tong += dc.toObject(Bill.class).getTotalPrice();
+                                viewbinding.tvTonggiaKhoanchi.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
+                                billAdapter.notifyDataSetChanged();
+                            }
+                        }
                     }
                 });
     }

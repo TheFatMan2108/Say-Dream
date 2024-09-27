@@ -86,7 +86,7 @@ public class ActivityCart extends AppCompatActivity {
         view.llThemgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadCartData();
+
                 if (listCart.isEmpty()) {
                     new AlertDialog.Builder(ActivityCart.this)
                             .setMessage(R.string.emptyCart)
@@ -173,6 +173,7 @@ public class ActivityCart extends AppCompatActivity {
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Log.e(TAG, "truoc: "+totalPrice );
         db.collection(Tag.DTO_BILL)
                 .document(id)
                 .set(data)
@@ -180,9 +181,11 @@ public class ActivityCart extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         String urlTemplate = "https://img.vietqr.io/image/vietinbank-101870446659-compact2.jpg?amount=%d&addInfo=%s";
+                        Log.e(TAG, "sau: "+totalPrice );
                         String formattedUrl = String.format(urlTemplate, totalPrice, id);
                         callBackAction.CallBack(formattedUrl);
                         progressDialog.dismiss();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
