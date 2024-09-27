@@ -102,14 +102,15 @@ public class Fragment_BillToMonth extends Fragment {
                             return;
                         }
                         list.clear();
-                        for (QueryDocumentSnapshot dc : task.getResult()) {
-                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
-                                list.add(dc.toObject(Bill.class));
-                                tong += dc.toObject(Bill.class).getTotalPrice();
-                                tongGia.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
-                                billAdapter.notifyDataSetChanged();
-                            }
-                        }
+//                        for (QueryDocumentSnapshot dc : task.getResult()) {
+//                            if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
+//                                list.add(dc.toObject(Bill.class));
+//                                tong += dc.toObject(Bill.class).getTotalPrice();
+//                                tongGia.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
+//                                billAdapter.notifyDataSetChanged();
+//                            }
+//                        }
+                        iCallBackAction.CallBack(task.getResult().toObjects(Bill.class));
                     }
                 });
     }
