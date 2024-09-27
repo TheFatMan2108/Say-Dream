@@ -52,12 +52,18 @@ ICallBackAction reloadList;
         this.list = list;
         reloadList = action;
         progressDialog = new ProgressDialog(context);
+
+        Log.d(TAG, "List size: " + list.size());
+        for (Bill bill : list) {
+            Log.d(TAG, "Bill ID: " + bill.getId());
+        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = ItemChodonBinding.inflate(((Activity)context).getLayoutInflater(),parent,false);
+        Log.d(TAG, "onBindViewHolder called for position: " + viewType);
         return new ViewHolder(view.getRoot());
     }
 
@@ -67,7 +73,10 @@ ICallBackAction reloadList;
         String Do = "#FF0000";
         String Cam = "#FFC107";
 
+        Log.d(TAG, "Binding data for position: " + position);
+
         Bill bill = list.get(position);
+        Log.d(TAG, "Bill ID: " + bill.getId());
         String priceTotal = context.getString(R.string.totalPrice);
         String id = context.getString(R.string.idBill);
         String quantity = context.getString(R.string.quantity);
@@ -212,6 +221,7 @@ ICallBackAction reloadList;
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount: " + list.size());
         return list.size();
     }
 
