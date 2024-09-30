@@ -31,7 +31,7 @@ import com.thuydev.saydream.databinding.ActivityShowMoreBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivitySeeMoreProduct extends AppCompatActivity {
+public class ActivitySeeMoreProduct extends AppCompat {
     ActivityShowMoreBinding view;
     List<Product> list;
     ShopProductAdapter shopProductAdapter;

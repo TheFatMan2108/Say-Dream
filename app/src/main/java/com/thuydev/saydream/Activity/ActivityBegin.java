@@ -9,7 +9,7 @@ import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.databinding.ActivityManHinhKhoiDauBinding;
 
-public class ActivityBegin extends AppCompatActivity {
+public class ActivityBegin extends AppCompat {
     ActivityManHinhKhoiDauBinding view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

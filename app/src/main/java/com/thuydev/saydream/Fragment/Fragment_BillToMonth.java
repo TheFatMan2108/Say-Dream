@@ -88,7 +88,7 @@ public class Fragment_BillToMonth extends Fragment {
                             if (user.getUid().equals(dc.toObject(Bill.class).getIdUser())) {
                                 list.add(dc.toObject(Bill.class));
                                 tong += dc.toObject(Bill.class).getTotalPrice();
-                                viewbinding.tvTonggiaKhoanchi.setText("Giá: " + NumberFormat.getNumberInstance(Locale.getDefault()).format(tong) + " VND");
+                                viewbinding.tvTonggiaKhoanchi.setText(String.format("%s: %s VND",getString(R.string.priceProduct), NumberFormat.getNumberInstance(Locale.getDefault()).format(tong)));
                                 billAdapter.notifyDataSetChanged();
                             }
                         }

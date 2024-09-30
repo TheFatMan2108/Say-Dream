@@ -61,5 +61,11 @@ public class Fragment_Profile extends Fragment {
                 ActivityProfile.instance.ShowDepositMoneyBill();
             }
         });
+        viewFrag.llNgonngu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityProfile.instance.ChoiceLanguage();
+            }
+        });
     }
 }

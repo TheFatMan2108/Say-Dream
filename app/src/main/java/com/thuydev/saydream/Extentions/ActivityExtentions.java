@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 
@@ -19,6 +21,7 @@ import com.thuydev.saydream.databinding.DialogAnhBinding;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ActivityExtentions {
     public static void NextActivity(Activity oldActivity, Class aClass, ICallBackAction action) {
@@ -55,5 +58,14 @@ public class ActivityExtentions {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(now);
+    }
+    public static void SetLocal(Activity activity, String langCode) {
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration,resources.getDisplayMetrics());
+
     }
 }

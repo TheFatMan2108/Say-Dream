@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ActivityProductDetail extends AppCompatActivity {
+public class ActivityProductDetail extends AppCompat {
     ActivitySanphamShowBinding view;
     Product product;
     int quantity = 1;

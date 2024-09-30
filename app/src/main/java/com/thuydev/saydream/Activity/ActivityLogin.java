@@ -24,7 +24,7 @@ import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.ActivityDangNhapBinding;
 import com.thuydev.saydream.databinding.DialogQuenpassBinding;
 
-public class ActivityLogin extends AppCompatActivity {
+public class ActivityLogin extends AppCompat {
     private ActivityDangNhapBinding view;
     private ProgressDialog progressDialog;
     public FirebaseAuth mAuth ;

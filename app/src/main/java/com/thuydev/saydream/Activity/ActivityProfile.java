@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -69,7 +70,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ActivityProfile extends AppCompatActivity {
+public class ActivityProfile extends AppCompat {
     private static final int CODE_IMAGE = 1;
     public static ActivityProfile instance;
     ActivityThongtintaikhoanBinding view;
@@ -80,6 +81,7 @@ public class ActivityProfile extends AppCompatActivity {
     ProgressDialog progressDialog;
     ICallBackAction getImage;
     User n_User;
+    private SharedPreferences sharedPreferences;
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -135,6 +137,7 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void OnInit(ICallBackAction action) {
+        sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         progressDialog = new ProgressDialog(this);
         adapterProfile = new AdapterProfile(this, new ICallBackAction() {
             @Override
@@ -482,6 +485,51 @@ public class ActivityProfile extends AppCompatActivity {
         });
     }
 
+    public  void ChoiceLanguage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        DialogThemHangBinding viewDialog = DialogThemHangBinding.inflate(getLayoutInflater(),null,false);
+        builder.setView(viewDialog.getRoot());
+        Dialog dialog = builder.create();
+        dialog.show();
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        viewDialog.tvTittle2.setText(R.string.language);
+        viewDialog.edtThemhang.setVisibility(View.GONE);
+        viewDialog.ibtnAddhang.setVisibility(View.GONE);
+
+        List<String> languages = new ArrayList<>();
+        languages.add(getString(R.string.lang_vn));
+        languages.add(getString(R.string.lang_en));
+
+        AddressAdapter languegeadapter = new AddressAdapter(languages,this);
+        viewDialog.listHang.setAdapter(languegeadapter);
+
+        viewDialog.listHang.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String langCode = "";
+                if (languages.get(position).equals(getString(R.string.lang_vn))){
+                    langCode = "vi";
+                } else if (languages.get(position).equals(getString(R.string.lang_en))) {
+                   langCode = "en";
+                }else {
+                    Log.e(Tag.TAG_LOG, "onItemClick: "+"nothing" );
+                }
+                ActivityExtentions.SetLocal(ActivityProfile.this,langCode);
+                recreate();
+                SaveLanguege(langCode);
+                dialog.cancel();
+            }
+        });
+
+    }
+
+
+    private void SaveLanguege(String langCode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lang", langCode);
+        editor.apply();
+    }
     public void HistoryBuy() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DialogLichsuBinding viewDialog = DialogLichsuBinding.inflate(getLayoutInflater(),null,false);
@@ -679,6 +727,7 @@ public class ActivityProfile extends AppCompatActivity {
                     }
                 });
     }
+
 
     @Override
     protected void onDestroy() {

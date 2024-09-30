@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Say Dream</string>
     <string name="non_account">Bạn chưa có tài khoản ?</string>
     <string name="login">Đăng nhập</string>
@@ -103,7 +103,8 @@
     <string name="priceProduct">Giá</string>
     <string name="titleBilldetail">Hoá đơn chi tiết</string>
     <string name="reBuy">Mua lại</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lang_vn" tools:ignore="MissingTranslation">Tiếng Việt</string>
+    <string name="lang_en">English</string>
 
 </resources>

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.SayDream"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.AppCompat"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ActivityProfile"
             android:exported="false" />
         <activity

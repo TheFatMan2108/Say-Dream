@@ -24,7 +24,7 @@ import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.R;
 import com.thuydev.saydream.databinding.ActivityDangKyBinding;
 
-public class ActivitySignUp extends AppCompatActivity {
+public class ActivitySignUp extends AppCompat {
     ActivityDangKyBinding view;
     private ProgressDialog progressDialog;
     @Override

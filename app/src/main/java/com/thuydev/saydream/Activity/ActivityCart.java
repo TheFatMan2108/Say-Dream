@@ -49,7 +49,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class ActivityCart extends AppCompatActivity {
+public class ActivityCart extends AppCompat {
     FragmentGioHangBinding view;
     CartAdapter cartAdapter;
     List<Cart> listCart;

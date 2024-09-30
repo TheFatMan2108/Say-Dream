@@ -11,13 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.thuydev.saydream.Extentions.ActivityExtentions;
 import com.thuydev.saydream.Extentions.FirebaseExtention;
 import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.databinding.ActivityManHinhChaoBinding;
 
-public class ActivityWellcome extends AppCompatActivity {
+public class ActivityWellcome extends AppCompat {
     ActivityManHinhChaoBinding view;
     private int beginApp;
+    private String langCode = "vi";
     private SharedPreferences sharedPreferences;
     private Intent intent;
     private FirebaseFirestore db;
@@ -29,8 +31,9 @@ public class ActivityWellcome extends AppCompatActivity {
         view = ActivityManHinhChaoBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
         db = FirebaseFirestore.getInstance();
-        sharedPreferences = getSharedPreferences("begin", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         beginApp = sharedPreferences.getInt("only", 0);
+        langCode = sharedPreferences.getString("lang", "vi");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -41,9 +44,12 @@ public class ActivityWellcome extends AppCompatActivity {
                     startActivity(intent);
                     ChangeValue();
                     finish();
+
                 } else {
                     StartActivityLogin();
+
                 }
+
             }
         }, 3000);
     }
