@@ -515,10 +515,16 @@ public class ActivityProfile extends AppCompat {
                 }else {
                     Log.e(Tag.TAG_LOG, "onItemClick: "+"nothing" );
                 }
-                ActivityExtentions.SetLocal(ActivityProfile.this,langCode);
-                recreate();
-                SaveLanguege(langCode);
-                dialog.cancel();
+                String finalLangCode = langCode;
+                SignOut(new ICallBackAction() {
+                   @Override
+                   public void CallBack(Object... obj) {
+                       ActivityExtentions.SetLocal(ActivityProfile.this, finalLangCode);
+                       SaveLanguege(finalLangCode);
+                       dialog.cancel();
+                   }
+               });
+
             }
         });
 
@@ -622,7 +628,7 @@ public class ActivityProfile extends AppCompat {
         });
     }
 
-    public void SignOut() {
+    public void SignOut(ICallBackAction action) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.Notifi);
         builder.setIcon(R.drawable.user1);
@@ -642,6 +648,7 @@ public class ActivityProfile extends AppCompat {
                 if (!isFinishing()) {
                     return;
                 }
+                action.CallBack();
                 startActivity(intent);
             }
         });

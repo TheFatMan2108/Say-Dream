@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.thuydev.saydream.Activity.ActivityProfile;
+import com.thuydev.saydream.Interface.ICallBackAction;
 import com.thuydev.saydream.databinding.TabThongtincanhanBinding;
 
 public class Fragment_Profile extends Fragment {
@@ -34,7 +35,12 @@ public class Fragment_Profile extends Fragment {
         viewFrag.llDangxuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityProfile.instance.SignOut();
+                ActivityProfile.instance.SignOut(new ICallBackAction() {
+                    @Override
+                    public void CallBack(Object... obj) {
+
+                    }
+                });
             }
         });
         viewFrag.llThongtincanhan.setOnClickListener(new View.OnClickListener() {
