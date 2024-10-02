@@ -107,5 +107,6 @@
     <string name="lang_vn" tools:ignore="MissingTranslation">Tiếng Việt</string>
     <string name="lang_en">English</string>
     <string name="shareFB">Chia sẻ</string>
+    <string name="signInUser">"Bạn muốn đăng nhập "</string>
 
 </resources>

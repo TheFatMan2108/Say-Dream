@@ -1,6 +1,7 @@
 package com.thuydev.saydream.Activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +55,10 @@ public class ActivityProductDetail extends AppCompat {
             @Override
             public void CallBack(Object... obj) {
                 // Do some thing
+                if(obj[0]==null){
+                    Toast.makeText(ActivityProductDetail.this, R.string.Nothing, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String id = obj[0].toString();
                 FirebaseExtention.GetProduct(id, new ICallBackAction() {
                     @Override
@@ -60,7 +66,7 @@ public class ActivityProductDetail extends AppCompat {
                         if(obj==null||obj.length<1)return;
                         product = (Product) obj[0];
                         view.tvTenspShow.setText(product.getName());
-                        view.tvGiaspShow.setText(FomatExtention.MakeStyleMoney(product.getPrice())+" đ");
+                        view.tvGiaspShow.setText(String.format("%s VND", FomatExtention.MakeStyleMoney(product.getPrice())));
                         view.tvMamspShow.setText(product.getYearOfManufacture());
                         Glide.with(ActivityProductDetail.this).
                                 load(product.getImage())
@@ -123,12 +129,29 @@ public class ActivityProductDetail extends AppCompat {
         view.btnThemgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(FirebaseAuth.getInstance().getUid()==null){
+                    SignIn(new ICallBackAction() {
+                        @Override
+                        public void CallBack(Object... obj) {
+
+                        }
+                    });
+                    return;
+                }
+                if(product==null){
+                    Toast.makeText(ActivityProductDetail.this, R.string.Nothing, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 AddCart();
             }
         });
         view.btnShareFB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(product==null){
+                    Toast.makeText(ActivityProductDetail.this, R.string.Nothing, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FirebaseExtention.CreatedDeepLinkProduct(product, ActivityProductDetail.this, new ICallBackAction() {
                     @Override
                     public void CallBack(Object... obj) {
@@ -287,5 +310,32 @@ public class ActivityProductDetail extends AppCompat {
             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/sharer/sharer.php?u=" + url));
             startActivity(webIntent);
         }
+    }
+    public void SignIn(ICallBackAction action) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.Notifi);
+        builder.setIcon(R.drawable.user1);
+        builder.setMessage(R.string.signInUser);
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ActivityProductDetail.this, ActivityLogin.class);
+                finishAffinity();
+                if (!isFinishing()) {
+                    return;
+                }
+                action.CallBack();
+                startActivity(intent);
+            }
+        });
+        builder.create().show();
+
     }
 }

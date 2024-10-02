@@ -52,7 +52,7 @@ public class ShopProductAdapter extends RecyclerView.Adapter<ShopProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHoder holder, int position) {
         holder.nameProduct.setText(productList.get(position).getName());
-        holder.price.setText(FomatExtention.MakeStyleMoney(productList.get(position).getPrice())+" đ");
+        holder.price.setText(String.format("%s VND", FomatExtention.MakeStyleMoney(productList.get(position).getPrice())));
         Glide.with(context).load(productList
                 .get(position)
                 .getImage())
