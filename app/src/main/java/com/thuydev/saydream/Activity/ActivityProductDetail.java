@@ -1,5 +1,7 @@
 package com.thuydev.saydream.Activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -122,6 +124,23 @@ public class ActivityProductDetail extends AppCompat {
             @Override
             public void onClick(View v) {
                 AddCart();
+            }
+        });
+        view.btnShareFB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseExtention.CreatedDeepLinkProduct(product, ActivityProductDetail.this, new ICallBackAction() {
+                    @Override
+                    public void CallBack(Object... obj) {
+                        if (obj != null && obj.length > 0) {
+                            Uri shortLink = (Uri) obj[0];  // Nhận liên kết ngắn
+                            Log.d("DynamicLink", "Short link: " + shortLink.toString());
+
+                            // Ví dụ: Chia sẻ liên kết ngắn
+                           ShareOnFacebook(shortLink);
+                        }
+                    }
+                });
             }
         });
     }
@@ -253,5 +272,20 @@ public class ActivityProductDetail extends AppCompat {
                         Log.w(Tag.TAG_LOG, "getDynamicLink:onFailure", e);
                     }
                 });
+    }
+
+    private void ShareOnFacebook(Uri url){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,url);
+
+        intent.setPackage("com.facebook.katana");
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/sharer/sharer.php?u=" + url));
+            startActivity(webIntent);
+        }
     }
 }
